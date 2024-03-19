@@ -611,6 +611,7 @@ signal sum_6 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000";
 signal sum_7 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000";
 
 signal sum_8 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000";
+signal sum_9 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000";
 
 signal biases : STD_LOGIC_VECTOR(15 downto 0) := "1000000110011110";
 
@@ -688,6 +689,8 @@ ut7_nn_addition: nn_addition port map(clk, sum_4,sum_5,sum_7);
 
 ut8_nn_addition: nn_addition port map(clk, sum_6,sum_7,sum_8);
 
-y_5 <= sigmoid(to_integer(unsigned(sum_8)));
+ut9_nn_addition: nn_addition port map(clk, biases,sum_8 ,sum_9);
+
+y_5 <= sigmoid(to_integer(unsigned(sum_9)));
 
 end Behavioral;
