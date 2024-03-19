@@ -28,31 +28,25 @@ entity fully_connected_layer_3 is
 
         x_9 : in STD_LOGIC_VECTOR(15 downto 0);
 
-        y_0 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_1 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_2 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_3 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_4 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_5 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_6 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_7 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_8 : out STD_LOGIC_VECTOR(15 downto 0);
-
-        y_9 : out STD_LOGIC_VECTOR(15 downto 0)
+        y : out STD_LOGIC_VECTOR(3 downto 0)
 
     );
 
 end fully_connected_layer_3 ;
 
 architecture Behavioral of fully_connected_layer_3 is
+       signal y_0 : STD_LOGIC_VECTOR(15 downto 0);
+
+       signal y_1 : STD_LOGIC_VECTOR(15 downto 0);
+		 signal y_2 : STD_LOGIC_VECTOR(15 downto 0);
+		 signal y_3 : STD_LOGIC_VECTOR(15 downto 0);
+		 signal y_4 : STD_LOGIC_VECTOR(15 downto 0);
+		 signal y_5 : STD_LOGIC_VECTOR(15 downto 0);
+		 signal y_6 : STD_LOGIC_VECTOR(15 downto 0);
+		 signal y_7 : STD_LOGIC_VECTOR(15 downto 0);
+		 signal y_8 : STD_LOGIC_VECTOR(15 downto 0);
+		 signal y_9 : STD_LOGIC_VECTOR(15 downto 0);
+		 
 
 component fully_connected_layer_3_0  is
 
@@ -374,6 +368,10 @@ component fully_connected_layer_3_9  is
 
 end component ;
 
+shared variable max_value : STD_LOGIC_VECTOR(15 downto 0);
+shared variable max_index : STD_LOGIC_VECTOR(3 downto 0);
+
+
 begin
 
 ut0_fully_connected_layer_3_0: fully_connected_layer_3_0 port map(
@@ -656,4 +654,56 @@ y_9 => y_9
 
     );
 
+    process (y_0, y_1, y_2, y_3, y_4, y_5, y_6, y_7, y_8, y_9)
+    begin
+        max_value := y_0;
+        max_index := "0000";
+		  
+		  		  
+        if y_1 > max_value then
+            max_value := y_1;
+            max_index := "0001";
+        end if;
+        
+        if y_2 > max_value then
+            max_value := y_2;
+            max_index := "0010";
+        end if;
+
+       if y_3 > max_value then
+            max_value := y_3;
+            max_index := "0011";
+        end if;
+        
+        if y_4 > max_value then
+            max_value := y_4;
+            max_index := "0100";
+        end if;
+        
+        if y_5 > max_value then
+            max_value := y_5;
+            max_index := "0101";
+        end if;
+		  
+        if y_6 > max_value then
+            max_value := y_6;
+            max_index := "0110";
+        end if;
+        
+        if y_7 > max_value then
+            max_value := y_7;
+            max_index := "0111";
+        end if;
+        
+        if y_8 > max_value then
+            max_value := y_8;
+            max_index := "1000";
+        end if;
+        
+        if y_9 > max_value then
+            max_value := y_9;
+            max_index := "1001";
+        end if;
+        y <= max_index;
+    end process;
 end Behavioral;
