@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 use IEEE.NUMERIC_STD.ALL;
 
-entity fully_connected_layer_3_9 is
+entity fully_connected_layer_3_1 is
 
     port (
 
@@ -30,14 +30,14 @@ entity fully_connected_layer_3_9 is
 
         x_9 : in STD_LOGIC_VECTOR(15 downto 0);
 
-        y_9 : out STD_LOGIC_VECTOR(15 downto 0)
+        y_1 : out STD_LOGIC_VECTOR(15 downto 0)
 
     );
 
-end fully_connected_layer_3_9 ;
+end fully_connected_layer_3_1 ;
 
-architecture Behavioral of fully_connected_layer_3_9 is
-type mem_array is array (0 to 65535) of std_logic_vector (15 downto 0);
+architecture Behavioral of fully_connected_layer_3_1 is
+type mem_array is array (0 to 65535) of std_logic_vector (15 downto 0); 
 signal sigmoid : mem_array := (
 
 0 to 4 => "0000000010000000",
@@ -554,43 +554,47 @@ signal sigmoid : mem_array := (
 
 34187 to 65535 => "0000000000000000");
 
-signal weight_0 : STD_LOGIC_VECTOR(15 downto 0) := "1000010000100100";
+signal store_sum : STD_LOGIC_VECTOR(15 downto 0) ;
+
+signal store_value : STD_LOGIC_VECTOR(15 downto 0) ;
+
+signal weight_0 : STD_LOGIC_VECTOR(15 downto 0) := "0000000111101010";
 
 signal store_weight_0 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_1 : STD_LOGIC_VECTOR(15 downto 0) := "0000000010000111";
+signal weight_1 : STD_LOGIC_VECTOR(15 downto 0) := "1000010001001100";
 
 signal store_weight_1 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_2 : STD_LOGIC_VECTOR(15 downto 0) := "0000000001111010";
+signal weight_2 : STD_LOGIC_VECTOR(15 downto 0) := "1000010111110010";
 
 signal store_weight_2 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_3 : STD_LOGIC_VECTOR(15 downto 0) := "1000010100011000";
+signal weight_3 : STD_LOGIC_VECTOR(15 downto 0) := "0000000100010101";
 
 signal store_weight_3 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_4 : STD_LOGIC_VECTOR(15 downto 0) := "1000001110100111";
+signal weight_4 : STD_LOGIC_VECTOR(15 downto 0) := "1000000110011101";
 
 signal store_weight_4 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_5 : STD_LOGIC_VECTOR(15 downto 0) := "1000010000010000";
+signal weight_5 : STD_LOGIC_VECTOR(15 downto 0) := "1000000001100000";
 
 signal store_weight_5 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_6 : STD_LOGIC_VECTOR(15 downto 0) := "1000010001110100";
+signal weight_6 : STD_LOGIC_VECTOR(15 downto 0) := "0000000010001100";
 
 signal store_weight_6 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_7 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000111101";
+signal weight_7 : STD_LOGIC_VECTOR(15 downto 0) := "1000000000110010";
 
 signal store_weight_7 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_8 : STD_LOGIC_VECTOR(15 downto 0) := "0000000001111110";
+signal weight_8 : STD_LOGIC_VECTOR(15 downto 0) := "1000011000000101";
 
 signal store_weight_8 : STD_LOGIC_VECTOR(15 downto 0) ;
 
-signal weight_9 : STD_LOGIC_VECTOR(15 downto 0) := "0000000010111001";
+signal weight_9 : STD_LOGIC_VECTOR(15 downto 0) := "0000000011001011";
 
 signal store_weight_9 : STD_LOGIC_VECTOR(15 downto 0) ;
 
@@ -611,9 +615,12 @@ signal sum_6 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000";
 signal sum_7 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000";
 
 signal sum_8 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000";
+
 signal sum_9 : STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000";
 
-signal biases : STD_LOGIC_VECTOR(15 downto 0) := "1000000011101111";
+signal biases : STD_LOGIC_VECTOR(15 downto 0) := "1000000110111101";
+
+
 
 
 
@@ -686,8 +693,9 @@ ut6_nn_addition: nn_addition port map(clk, sum_2,sum_3,sum_6);
 ut7_nn_addition: nn_addition port map(clk, sum_4,sum_5,sum_7);
 
 ut8_nn_addition: nn_addition port map(clk, sum_6,sum_7,sum_8);
+
 ut9_nn_addition: nn_addition port map(clk, biases,sum_8 ,sum_9);
 
-y_9 <= sigmoid(to_integer(unsigned(sum_9)));
+y_1 <= sigmoid(to_integer(unsigned(sum_9)));
 
 end Behavioral;
