@@ -57,46 +57,40 @@ architecture Behavioral of nn_addition is
     signal unsigned_A, unsigned_B : UNSIGNED(15 downto 0);
 	 signal unsigned_x, unsigned_y : UNSIGNED(14 downto 0);
 	 signal sum_out : STD_LOGIC_VECTOR(32 downto 0);
+	 signal sign_bit : std_logic ;
 	 signal subtract_result : INTEGER;
+	 signal subtract_result_0 : INTEGER;
+	 signal subtract_result_1 : INTEGER;
+	 signal subtract_result_2 : INTEGER;
+	 signal res1 : INTEGER;
+	 signal res2 : INTEGER;
 	 
 
 begin
-    process(clk)
-    begin
-        if rising_edge(clk) then
-            unsigned_A <= to_unsigned_16(inputx);
-            unsigned_B <= to_unsigned_16(inputy);
-				unsigned_x <= unsigned_A(14 downto 0);
-            unsigned_y <= unsigned_B(14 downto 0);
-				if unsigned_x > unsigned_y then
-					output(15) <= inputx(15);
-				else 
-					output(15) <= inputy(15);
-				end if ;
-
-				if inputx(15) = '0' and inputy(15) = '1' then
-                -- If inputx is positive and inputy is negative, perform subtraction
-                subtract_result <= to_integer(unsigned_x) - to_integer(unsigned_y);
-            elsif inputx(15) = '1' and inputy(15) = '0' then
-                -- If inputx is negative and inputy is positive, perform subtraction
-                subtract_result <= to_integer(unsigned_y) - to_integer(unsigned_x);
-            else
-					subtract_result <= to_integer(unsigned_x) + to_integer(unsigned_y);
-            end if;
-            if subtract_result > 32767 then
-                subtract_result <= 32767;
-            elsif subtract_result < -32768 then
-                subtract_result <= -32768;
-            end if;
-				sum_out <= std_logic_vector(to_unsigned(subtract_result, sum_out'length));
-					output(14 downto 0) <= sum_out(14 downto 0);
+    unsigned_A <= to_unsigned_16(inputx);
+    unsigned_B <= to_unsigned_16(inputy);
+	 unsigned_x <= unsigned_A(14 downto 0);
+    unsigned_y <= unsigned_B(14 downto 0);
+	 res1 <= to_integer(unsigned_x);
+	 res2 <= to_integer(unsigned_y);
+	 sign_bit <= '1' when (unsigned_x > unsigned_y) else '0' ;
+	 
+	 subtract_result_0 <= to_integer(unsigned_x) + to_integer(unsigned_y);
+	 subtract_result_1 <= to_integer(unsigned_x) - to_integer(unsigned_y);
+	 subtract_result_2 <= to_integer(unsigned_y) - to_integer(unsigned_x);
+	 
+	 subtract_result <= subtract_result_0 when (inputx(15) = inputy(15)) else
+                  subtract_result_1 when (unsigned_x > unsigned_y) else
+                  subtract_result_2;
+	 
+	 output(15) <= '1' when ((sign_bit = '1' and inputx(15) = '1' ) or (sign_bit = '0' and inputy(15) = '1')) else '0';
+	  
+	 
+	 sum_out <= std_logic_vector(to_unsigned(subtract_result, sum_out'length));
+	output(14 downto 0) <= sum_out(14 downto 0);
 
 
-		  end if ;
-
-    end process;
-
-
+	 
+   
 
 end Behavioral;
-
